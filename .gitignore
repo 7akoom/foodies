@@ -1,0 +1,14 @@
+# Laravel
+/vendor
+/node_modules
+
+# .env file
+.env
+
+# IDE or Editor specific files
+.idea/
+.vscode/
+
+# Operating system files
+.DS_Store
+Thumbs.db
