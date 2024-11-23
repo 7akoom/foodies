@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -44,5 +45,30 @@ Route::controller(AdminController::class)->group(function () {
     });
 });
 
+Route::middleware(['client'])->group(function(){
+    Route::controller(ClientController::class)->group(function () {
+        Route::prefix('client')->group(function () {
+            Route::get('/dashboard', 'ClientDashboard')->name('client.dashboard');
+            Route::get('/profile', 'ClientProfile')->name('client.profile');
+            Route::post('/profile/store', 'ClientProfileStore')->name('client.profile.store');
+            Route::get('/change/password', 'ClientChangePassword')->name('client.change.password');
+            Route::post('/password/update', 'ClientPasswordUpdate')->name('client.password.update');
+        });
+    });
+});
+
+Route::controller(ClientController::class)->group(function () {
+    Route::prefix('client')->group(function () {
+        Route::get('/login', 'ClientLogin')->name('client.login');
+        Route::post('/login', 'ClientLoginSubmit')->name('client.login.submit');
+        Route::get('/logout', 'ClientLogout')->name('client.logout');
+        Route::get('/forget-password', 'ClientForgetPassword')->name('client.forget_password');
+        Route::post('/forget-password', 'ClientPasswordSubmit')->name('client.password_submit');
+        Route::get('/reset-password/{token}/{email}', 'ClientResetPassword');
+        Route::post('/reset-password-submit', 'ClientResetPasswordSubmit')->name('client.reset_password_submit');
+        Route::get('/register', 'ClientRegister')->name('client.register');
+        Route::post('/register', 'ClientRegisterSubmit')->name('client.register.submit');
+    });
+});
 
 
